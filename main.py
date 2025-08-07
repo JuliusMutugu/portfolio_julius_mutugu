@@ -33,7 +33,7 @@ from bs4 import BeautifulSoup
     # Page configuration
 st.set_page_config(
     page_title="Julius Mutugu - AI Software Engineer",
-    page_icon="🤖",
+    page_icon=":portfolio:",
     layout="wide",
     initial_sidebar_state="expanded"
 )
