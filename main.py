@@ -398,6 +398,61 @@ def load_css(theme="modern_light"):
     ::-webkit-scrollbar-thumb:hover {{
         background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
     }}
+    
+    /* Floating WhatsApp Button Styles */
+    .floating-contact {{
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }}
+    
+    .main-fab {{
+        min-width: 140px;
+        height: 60px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        font-size: 1.1rem;
+        text-decoration: none;
+        animation: float 3s ease-in-out infinite;
+        padding: 0 20px;
+    }}
+    
+    .main-fab:hover {{
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+        background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+        text-decoration: none;
+        color: white;
+    }}
+    
+    @keyframes float {{
+        0%, 100% {{ transform: translateY(0px); }}
+        50% {{ transform: translateY(-10px); }}
+    }}
+    
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {{
+        .floating-contact {{
+            bottom: 20px;
+            right: 20px;
+        }}
+        
+        .main-fab {{
+            min-width: 120px;
+            height: 55px;
+            font-size: 1rem;
+            padding: 0 15px;
+        }}
+    }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -1350,6 +1405,16 @@ def main():
         show_jobs()
     elif current_page == "Contact":
         show_contact()
+
+    # Floating WhatsApp Contact Button
+    st.markdown("""
+    <div class="floating-contact">
+        <a href="https://wa.me/254717348043?text=Hello%20Julius,%20I%20found%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20potential%20opportunity" 
+           target="_blank" class="main-fab" title="WhatsApp +254 717 348 043">
+            WhatsApp
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
 
 def show_home():
     """Enhanced home page with comprehensive overview"""
