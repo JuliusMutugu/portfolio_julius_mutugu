@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julius Mutugu - AI Software Engineer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #f7fafc;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="0,0 1000,0 1000,100 0,50"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .summary {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #4a5568;
+        }
+        
+        .education-item {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .degree {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .university {
+            font-weight: 500;
+            color: #3b82f6;
+            margin-bottom: 0.25rem;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-category {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .category-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .project {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .project:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+        }
+        
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-description {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-tag {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .project-highlights {
+            list-style: none;
+        }
+        
+        .project-highlights li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .project-highlights li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        
+        .achievements {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .achievements-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .stat {
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { 
+                box-shadow: none; 
+                margin: 0;
+                border-radius: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .name { font-size: 2rem; }
+            .contact-info { gap: 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1 class="name">JULIUS MUTUGU</h1>
+                <p class="title">AI Software Engineer | Machine Learning Specialist | Full-Stack Developer</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <span>ndegwajulius239@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>🌐</span>
+                        <span>github.com/JuliusMutugu</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <span>linkedin.com/in/julius-mutugu</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>Nairobi, Kenya</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">PROFESSIONAL SUMMARY</h2>
+                <p class="summary">
+                    Innovative Software Engineer with specialized expertise in AI, Machine Learning, and Full-Stack Development. 
+                    Proven track record in developing healthcare systems, implementing federated learning solutions, and creating 
+                    data-driven applications. Strong foundation in computer vision, blockchain technology, and microservices 
+                    architecture. Passionate about leveraging technology to solve real-world problems in healthcare, agriculture, 
+                    and financial sectors.
+                </p>
+            </div>
+            
+            <div class="achievements">
+                <h3 class="achievements-title">KEY ACHIEVEMENTS</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">709+</span>
+                        <span class="stat-label">GitHub Contributions</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">7+</span>
+                        <span class="stat-label">Major Projects</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Tech Stacks</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2025</span>
+                        <span class="stat-label">Graduate</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">EDUCATION</h2>
+                <div class="education-item">
+                    <div class="degree">Bachelor of Software Engineering</div>
+                    <div class="university">University of Eastern Africa, Baraton (UEAB)</div>
+                    <div style="color: #4a5568; margin-top: 0.5rem;">
+                        <strong>Specialization:</strong> Artificial Intelligence & Machine Learning<br>
+                        <strong>Graduation:</strong> 2025<br>
+                        <strong>Focus:</strong> Advanced AI technologies, federated learning, and software engineering principles
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">TECHNICAL SKILLS</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="category-title">Programming Languages</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">R</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">AI/ML Technologies</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">OpenCV</span>
+                            <span class="skill-tag">Federated Learning</span>
+                            <span class="skill-tag">Computer Vision</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">Web Development</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Nuxt 3</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">RESTful APIs</span>
+                            <span class="skill-tag">HTML/CSS</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">Mobile & Desktop</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Flutter</span>
+                            <span class="skill-tag">Flet Framework</span>
+                            <span class="skill-tag">React Native</span>
+                            <span class="skill-tag">Cross-platform</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">Databases & Cloud</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">MongoDB Atlas</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Microservices</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">Tools & Practices</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git/GitHub</span>
+                            <span class="skill-tag">Agile</span>
+                            <span class="skill-tag">CI/CD</span>
+                            <span class="skill-tag">Power BI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">KEY PROJECTS</h2>
+                
+                <div class="project">
+                    <div class="project-title">Healthcare Insurance Implementation System (Kenya's SHIF Model)</div>
+                    <div class="project-description">
+                        Comprehensive healthcare insurance system based on Kenya's Social Health Insurance Fund model 
+                        with advanced fraud detection and optimized fund allocation mechanisms.
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Blockchain</span>
+                        <span class="tech-tag">Microservices</span>
+                        <span class="tech-tag">Agile</span>
+                        <span class="tech-tag">CI/CD</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Integration with multiple insurance providers</li>
+                        <li>Advanced fraud detection algorithms</li>
+                        <li>Microservices architecture implementation</li>
+                    </ul>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Federated Machine Learning in Healthcare Systems</div>
+                    <div class="project-description">
+                        Research and implementation of federated learning for healthcare systems to enhance data privacy 
+                        while training models across decentralized datasets.
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Federated Learning</span>
+                        <span class="tech-tag">Privacy-Preserving ML</span>
+                        <span class="tech-tag">Healthcare Data</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Enhanced data privacy and security</li>
+                        <li>Decentralized model training implementation</li>
+                        <li>Research-grade federated learning algorithms</li>
+                    </ul>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Research and Grant Management System (UEAB)</div>
+                    <div class="project-description">
+                        Full-stack university platform for managing research and grants with public researcher profiles, 
+                        status tracking, and community forums.
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">Nuxt 3</span>
+                        <span class="tech-tag">MongoDB Atlas</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Agile</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Public researcher profiles and portfolios</li>
+                        <li>Grant status tracking and management</li>
+                        <li>Community collaboration features</li>
+                    </ul>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Computer Vision for Waste Dataset Classification</div>
+                    <div class="project-description">
+                        Intelligent waste classification system using Support Vector Machine with batch processing 
+                        techniques for large-scale dataset optimization.
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">OpenCV</span>
+                        <span class="tech-tag">SVM</span>
+                        <span class="tech-tag">Computer Vision</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Accurate waste classification for environmental impact</li>
+                        <li>Batch processing optimization for large datasets</li>
+                        <li>Advanced computer vision techniques</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">CAREER OBJECTIVES</h2>
+                <p class="summary">
+                    Seeking opportunities at leading technology companies (Google, Microsoft, Amazon, Meta) to contribute 
+                    innovative AI solutions and full-stack development expertise. Passionate about leveraging technology 
+                    for social impact, particularly in healthcare and sustainable development initiatives.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

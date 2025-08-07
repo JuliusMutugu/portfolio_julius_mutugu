@@ -18,7 +18,7 @@ from streamlit_lottie import st_lottie
 
 # Page configuration
 st.set_page_config(
-    page_title="Julimore - AI Software Engineer",
+    page_title="Julius Mutugu - AI Software Engineer",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -30,14 +30,16 @@ def load_css(theme="dark"):
         bg_gradient = "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)"
         card_bg = "rgba(30, 41, 59, 0.95)"
         text_color = "#ffffff"
-        secondary_text = "#eb73d1"
-        accent_color = "#366dc4"
+        secondary_text = "#94a3b8"
+        accent_color = "#3b82f6"
+        nav_bg = "linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%)"
     else:
         bg_gradient = "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)"
         card_bg = "rgba(255, 255, 255, 0.95)"
         text_color = "#1e293b"
         secondary_text = "#64748b"
         accent_color = "#3b82f6"
+        nav_bg = "linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%)"
     
     st.markdown(f"""
     <style>
@@ -95,10 +97,10 @@ def load_css(theme="dark"):
     
     @keyframes glow {{
         0%, 100% {{
-            box-shadow: 0 0 20px rgba(132, 204, 22, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }}
         50% {{
-            box-shadow: 0 0 30px rgba(132, 204, 22, 0.6);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
         }}
     }}
     
@@ -106,7 +108,7 @@ def load_css(theme="dark"):
         font-family: 'Inter', sans-serif;
         font-size: 3.8rem;
         font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #84cc16 50%, #10b981 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -127,12 +129,12 @@ def load_css(theme="dark"):
     }}
     
     .project-card {{
-        background: linear-gradient(135deg, #667eea 0%, #84cc16 70%, #10b981 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 70%, #1e40af 100%);
         padding: 2.5rem;
         border-radius: 20px;
         margin: 2rem 0;
         color: white;
-        box-shadow: 0 15px 35px rgba(132, 204, 22, 0.4);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(10px);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -141,12 +143,12 @@ def load_css(theme="dark"):
     
     .project-card:hover {{
         transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 25px 50px rgba(132, 204, 22, 0.5);
+        box-shadow: 0 25px 50px rgba(59, 130, 246, 0.5);
         animation: glow 2s infinite;
     }}
     
     .skill-badge {{
-        background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: white;
         padding: 0.5rem 1.2rem;
         border-radius: 25px;
@@ -154,7 +156,7 @@ def load_css(theme="dark"):
         display: inline-block;
         font-size: 0.9rem;
         font-weight: 500;
-        box-shadow: 0 6px 15px rgba(132, 204, 22, 0.4);
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
         animation: slideIn 0.5s ease-out;
@@ -162,27 +164,27 @@ def load_css(theme="dark"):
     
     .skill-badge:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(132, 204, 22, 0.6);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
     }}
     
     .contact-info {{
-        background: linear-gradient(135deg, rgba(132, 204, 22, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
         padding: 2.5rem;
         border-radius: 20px;
         border-left: 4px solid;
-        border-image: linear-gradient(135deg, #84cc16 0%, #65a30d 100%) 1;
+        border-image: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) 1;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         color: {text_color};
         animation: fadeInUp 0.8s ease-out;
     }}
     
     .stats-container {{
-        background: linear-gradient(135deg, #667eea 0%, #84cc16 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         padding: 2.5rem;
         border-radius: 20px;
         color: white;
         margin: 1.5rem 0;
-        box-shadow: 0 15px 35px rgba(132, 204, 22, 0.4);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
         animation: pulse 3s infinite;
     }}
     
@@ -199,7 +201,7 @@ def load_css(theme="dark"):
         font-family: 'Inter', sans-serif;
         font-size: 2.8rem;
         font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #84cc16 50%, #10b981 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -212,25 +214,25 @@ def load_css(theme="dark"):
         top: 20px;
         right: 20px;
         z-index: 1000;
-        background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: white;
         border: none;
         padding: 0.8rem;
         border-radius: 50%;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(132, 204, 22, 0.3);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
         animation: fadeInUp 1s ease-out;
     }}
     
     .theme-toggle:hover {{
         transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(132, 204, 22, 0.5);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
     }}
     
     .highlight-box {{
-        background: linear-gradient(135deg, rgba(132, 204, 22, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-        border-left: 4px solid #84cc16;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
+        border-left: 4px solid #3b82f6;
         padding: 2rem;
         border-radius: 12px;
         margin: 1.5rem 0;
@@ -241,7 +243,7 @@ def load_css(theme="dark"):
     
     .highlight-box:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(132, 204, 22, 0.2);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
     }}
     
     .chart-container {{
@@ -267,7 +269,7 @@ def load_css(theme="dark"):
     }}
     
     .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {{
-        background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: white;
         animation: glow 2s infinite;
     }}
@@ -286,20 +288,20 @@ def load_css(theme="dark"):
     }}
     
     .stButton > button {{
-        background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: white;
         border: none;
         padding: 0.8rem 1.8rem;
         border-radius: 10px;
         font-weight: 500;
-        box-shadow: 0 6px 20px rgba(132, 204, 22, 0.3);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
         animation: fadeInUp 0.8s ease-out;
     }}
     
     .stButton > button:hover {{
         transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(132, 204, 22, 0.5);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
         animation: pulse 1s infinite;
     }}
     
@@ -330,12 +332,12 @@ def load_css(theme="dark"):
     }}
     
     ::-webkit-scrollbar-thumb {{
-        background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         border-radius: 4px;
     }}
     
     ::-webkit-scrollbar-thumb:hover {{
-        background: linear-gradient(135deg, #65a30d 0%, #84cc16 100%);
+        background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -378,7 +380,15 @@ def main():
     
     # Sidebar navigation
     with st.sidebar:
-        st.markdown('<div class="navigation-header">Navigation</div>', unsafe_allow_html=True)
+        st.markdown('<div class="navigation-header">Portfolio Navigation</div>', unsafe_allow_html=True)
+        
+        # Add a small profile section
+        st.markdown("""
+        <div style="text-align: center; padding: 1rem 0; border-bottom: 1px solid rgba(59, 130, 246, 0.3); margin-bottom: 1rem;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">J</div>
+            <div style="font-size: 0.9rem; opacity: 0.8;">AI Software Engineer</div>
+        </div>
+        """, unsafe_allow_html=True)
         
         # Get the current page index
         pages = ["Home", "Projects", "Skills", "Experience", "Contact"]
@@ -387,33 +397,47 @@ def main():
         selected = option_menu(
             menu_title=None,
             options=pages,
-            icons=["house", "code-slash", "gear", "briefcase", "envelope"],
+            icons=["house-fill", "code-square", "cpu-fill", "briefcase-fill", "envelope-fill"],
             menu_icon="cast",
             default_index=current_index,
             key="main_menu",
             styles={
-                "container": {"padding": "0!important", "background-color": "transparent"},
-                "icon": {"color": "#84cc16", "font-size": "16px"},
+                "container": {
+                    "padding": "0!important", 
+                    "background": "linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%)",
+                    "border-radius": "12px",
+                    "border": "1px solid rgba(59, 130, 246, 0.2)"
+                },
+                "icon": {
+                    "color": "#3b82f6", 
+                    "font-size": "18px",
+                    "margin-right": "8px"
+                },
                 "nav-link": {
                     "font-family": "Inter, sans-serif",
-                    "font-size": "14px", 
+                    "font-size": "15px", 
                     "font-weight": "500",
                     "text-align": "left", 
-                    "margin": "2px 0",
-                    "padding": "12px 16px",
-                    "border-radius": "8px",
+                    "margin": "3px 8px",
+                    "padding": "14px 18px",
+                    "border-radius": "10px",
                     "color": "#ffffff" if st.session_state.theme == 'dark' else "#374151",
-                    "transition": "all 0.3s ease"
+                    "transition": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    "border": "1px solid transparent"
                 },
                 "nav-link-selected": {
-                    "background": "linear-gradient(135deg, #84cc16 0%, #65a30d 100%)",
+                    "background": "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
                     "color": "white",
                     "font-weight": "600",
-                    "box-shadow": "0 4px 12px rgba(132, 204, 22, 0.3)"
+                    "box-shadow": "0 4px 12px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                    "border": "1px solid rgba(255, 255, 255, 0.3)",
+                    "transform": "translateY(-1px)"
                 },
                 "nav-link-hover": {
-                    "background": "rgba(132, 204, 22, 0.1)",
-                    "color": "#84cc16"
+                    "background": "rgba(59, 130, 246, 0.15)",
+                    "color": "#3b82f6",
+                    "transform": "translateY(-1px)",
+                    "border": "1px solid rgba(59, 130, 246, 0.3)"
                 }
             }
         )
@@ -422,6 +446,26 @@ def main():
         if selected != st.session_state.selected_page:
             st.session_state.selected_page = selected
             st.rerun()
+        
+        # Add quick stats in sidebar
+        st.markdown("---")
+        st.markdown('<div class="navigation-header">Quick Stats</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div style="padding: 1rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%); border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.8rem; opacity: 0.8;">Projects:</span>
+                <span style="font-weight: 600; color: #3b82f6;">7+</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.8rem; opacity: 0.8;">Skills:</span>
+                <span style="font-weight: 600; color: #3b82f6;">25+</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 0.8rem; opacity: 0.8;">Status:</span>
+                <span style="font-weight: 600; color: #10b981;">Available</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Main content based on navigation
     current_page = st.session_state.selected_page
@@ -442,7 +486,7 @@ def show_home():
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.markdown('<h1 class="main-header">Julimore</h1>', unsafe_allow_html=True)
+        st.markdown('<h1 class="main-header">Julius Mutugu</h1>', unsafe_allow_html=True)
         st.markdown('<p class="sub-header">AI & Software Engineer</p>', unsafe_allow_html=True)
         
         # Load animation
@@ -499,15 +543,28 @@ def show_home():
             <h4 style="margin-top: 0; color: inherit; font-weight: 600;">Education</h4>
             <p style="margin-bottom: 0; color: inherit; line-height: 1.6;">
             <strong>Bachelor of Software Engineering</strong><br>
-            <span style="color: #10b981; font-weight: 600;">Specialization: Artificial Intelligence</span><br>
-            <em>Recently Graduated - 2025</em>
+            <span style="color: #10b981; font-weight: 600;">University of Eastern Africa, Baraton (UEAB)</span><br>
+            <em>Specialization: Artificial Intelligence & Machine Learning</em><br>
+            <em>Graduated: 2025</em>
             </p>
         </div>
         """, unsafe_allow_html=True)
         
         # Add a call-to-action
-        if st.button("📄 View My Resume", use_container_width=True):
-            st.info("📥 Resume download functionality ready for implementation")
+        try:
+            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
+                pdf_data = pdf_file.read()
+        
+            st.download_button(
+                label="📄 Download My Resume",
+                data=pdf_data,
+                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                help="Download my complete resume in PDF format"
+            )
+        except FileNotFoundError:
+            st.error("Resume file not found. Please contact me directly for the latest version.")
         
         if st.button("💼 Explore Projects", use_container_width=True):
             # Set session state to navigate to projects
@@ -520,55 +577,80 @@ def show_projects():
     st.markdown("Explore comprehensive solutions in AI, Computer Vision, NLP, and Software Development")
     
     # Project categories
-    categories = ["All", "Computer Vision", "Natural Language Processing", "Machine Learning", "Web Development", "Game Development"]
+    categories = ["All", "Computer Vision", "Natural Language Processing", "Machine Learning", "Web Development", "Mobile Development"]
     selected_category = st.selectbox("Filter by Category", categories)
     
-    # Sample projects data (you'll replace this with your actual projects)
+    # Sample projects data (Julius Mutugu's actual projects)
     projects = [
         {
-            "title": "AI-Powered Image Classification System",
-            "category": "Computer Vision",
-            "description": "Enterprise-grade deep learning model for real-time image classification achieving 95% accuracy with optimized inference pipeline",
-            "tech_stack": ["Python", "TensorFlow", "OpenCV", "FastAPI", "React"],
-            "github": "https://github.com/yourusername/image-classifier",
-            "demo": True,
-            "highlights": ["Real-time processing capability", "95% classification accuracy", "RESTful API integration", "Responsive web interface"]
-        },
-        {
-            "title": "Sentiment Analysis API",
-            "category": "Natural Language Processing",
-            "description": "Production-ready NLP microservice for sentiment analysis across social media platforms and customer feedback systems",
-            "tech_stack": ["Python", "NLTK", "spaCy", "Flask", "Docker"],
-            "github": "https://github.com/yourusername/sentiment-api",
-            "demo": True,
-            "highlights": ["Multi-language support", "Real-time analysis", "Scalable microservice architecture", "Containerized deployment"]
-        },
-        {
-            "title": "Computer Vision Game Controller",
-            "category": "Game Development",
-            "description": "Advanced hand gesture recognition system for intuitive game control using computer vision and machine learning algorithms",
-            "tech_stack": ["Python", "OpenCV", "MediaPipe", "PyGame"],
-            "github": "https://github.com/yourusername/cv-game-controller",
-            "demo": True,
-            "highlights": ["Real-time hand tracking", "Advanced gesture recognition", "Cross-platform compatibility", "Low-latency processing"]
-        },
-        {
-            "title": "Financial Data Analytics Dashboard",
-            "category": "Web Development",
-            "description": "Comprehensive dashboard for financial data analysis featuring real-time market data visualization and portfolio management",
-            "tech_stack": ["Python", "Streamlit", "Plotly", "Pandas", "YFinance"],
-            "github": "https://github.com/yourusername/finance-dashboard",
-            "demo": True,
-            "highlights": ["Real-time market data", "Interactive visualizations", "Technical indicators", "Portfolio optimization"]
-        },
-        {
-            "title": "Predictive Maintenance System",
+            "title": "Healthcare Insurance Implementation System (Kenya's SHIF Model)",
             "category": "Machine Learning",
-            "description": "Machine learning solution for predicting equipment failures in manufacturing environments with 98% accuracy",
-            "tech_stack": ["Python", "Scikit-learn", "XGBoost", "Django", "PostgreSQL"],
-            "github": "https://github.com/yourusername/predictive-maintenance",
-            "demo": False,
-            "highlights": ["98% prediction accuracy", "Cost reduction optimization", "Real-time monitoring", "Enterprise integration"]
+            "description": "Comprehensive healthcare insurance system based on Kenya's Social Health Insurance Fund model with fraud detection and optimized fund allocation",
+            "tech_stack": ["Python", "Blockchain", "Microservices", "Agile", "CI/CD"],
+            "github": "Private Repository",
+            "demo": True,
+            "highlights": ["Integration with multiple insurance providers", "Advanced fraud detection algorithms", "Optimized fund allocation", "Microservices architecture"],
+            "private": True
+        },
+        {
+            "title": "Federated Machine Learning in Healthcare Systems",
+            "category": "Machine Learning",
+            "description": "Research and implementation of federated learning for healthcare systems to enhance data privacy while training models across decentralized datasets",
+            "tech_stack": ["Python", "Federated Learning", "Privacy-Preserving ML", "Healthcare Data"],
+            "github": "Private Repository",
+            "demo": True,
+            "highlights": ["Enhanced data privacy and security", "Decentralized model training", "Healthcare data protection", "Research-grade implementation"],
+            "private": True
+        },
+        {
+            "title": "Research and Grant Management System (UEAB)",
+            "category": "Web Development",
+            "description": "Full-stack university platform for managing research and grants with public researcher profiles, status tracking, and community forums",
+            "tech_stack": ["Nuxt 3", "MongoDB Atlas", "Node.js", "Agile", "CI/CD"],
+            "github": "https://github.com/JuliusMutugu",
+            "demo": True,
+            "highlights": ["Public researcher profiles", "Grant status tracking", "Community collaboration features", "Funding opportunity discovery"],
+            "private": False
+        },
+        {
+            "title": "Computer Vision for Waste Dataset Classification",
+            "category": "Computer Vision",
+            "description": "Intelligent waste classification system using Support Vector Machine with batch processing techniques for large-scale dataset optimization",
+            "tech_stack": ["Python", "OpenCV", "SVM", "Computer Vision", "Data Processing"],
+            "github": "https://github.com/JuliusMutugu/ImageClassification-dataset",
+            "demo": True,
+            "highlights": ["Accurate waste classification", "Batch processing optimization", "Large dataset handling", "Environmental impact"],
+            "private": False
+        },
+        {
+            "title": "Flet Desktop Application with Federated Learning",
+            "category": "Mobile Development",
+            "description": "Desktop application using Flet framework powered by custom federated learning algorithm built from scratch for competitive advantage",
+            "tech_stack": ["Python", "Flet", "Federated Learning", "Desktop Development"],
+            "github": "https://github.com/JuliusMutugu/FletSimpleApplicationDismissalMessage",
+            "demo": True,
+            "highlights": ["Custom federated learning implementation", "Cross-platform desktop app", "Innovative framework usage", "Machine learning integration"],
+            "private": False
+        },
+        {
+            "title": "House and Land Advertising System",
+            "category": "Web Development",
+            "description": "Django-based real estate platform with comprehensive property management, user authentication, and advanced search functionality",
+            "tech_stack": ["Python", "Django", "PostgreSQL", "HTML/CSS", "JavaScript"],
+            "github": "https://github.com/JuliusMutugu/houseAndLandAdverisingSystem",
+            "demo": True,
+            "highlights": ["Property management system", "User authentication", "Advanced search filters", "Responsive web design"],
+            "private": False
+        },
+        {
+            "title": "Data Analysis for E-commerce (UEAB Hackathon)",
+            "category": "Machine Learning",
+            "description": "Comprehensive data analysis project for e-commerce platform developed during university hackathon with advanced analytics and insights",
+            "tech_stack": ["Python", "Jupyter Notebook", "Pandas", "Data Visualization", "Machine Learning"],
+            "github": "https://github.com/JuliusMutugu/Data_analysis_ueab_hackathon_Ecommerce",
+            "demo": True,
+            "highlights": ["Hackathon winner project", "E-commerce analytics", "Data visualization", "Predictive insights"],
+            "private": False
         }
     ]
     
@@ -609,16 +691,62 @@ def show_projects():
             with col3:
                 st.markdown('<div class="animated-text">', unsafe_allow_html=True)
                 st.markdown("**Resources:**")
-                st.markdown(f"[🔗 GitHub Repository]({project['github']})")
+                
+                # GitHub repository link with private indicator
+                if project['private']:
+                    st.markdown(f"🔒 **Private Repository** - Available upon request")
+                    st.markdown("*Contact me for code review access*")
+                else:
+                    st.markdown(f"[🔗 GitHub Repository]({project['github']})")
+                
+                # Enhanced demo functionality
                 if project['demo']:
                     if st.button("🚀 View Demo", key=f"demo_{i}"):
                         st.balloons()  # Add celebration animation
-                        st.success("🎉 Demo functionality ready for integration!")
-                        # Add a loading animation
-                        with st.spinner('Loading demo...'):
-                            import time
-                            time.sleep(1)
-                        st.info("Live demonstration integration would be implemented here")
+                        
+                        # Different demo types based on project
+                        if project['title'] == "Algorithmic Trading System":
+                            st.success("🎉 Trading System Demo Ready!")
+                            with st.expander("📊 Sample Trading Performance", expanded=True):
+                                # Create a sample trading chart
+                                import random
+                                import datetime
+                                dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='D')
+                                returns = [random.uniform(-0.02, 0.03) for _ in range(len(dates))]
+                                cumulative_returns = (1 + pd.Series(returns)).cumprod()
+                                
+                                fig = go.Figure()
+                                fig.add_trace(go.Scatter(x=dates, y=cumulative_returns, 
+                                                       mode='lines', name='Portfolio Value',
+                                                       line=dict(color='#84cc16', width=2)))
+                                fig.update_layout(title="Sample Trading Performance (2024)",
+                                                xaxis_title="Date", yaxis_title="Cumulative Returns",
+                                                height=300, showlegend=False)
+                                st.plotly_chart(fig, use_container_width=True)
+                                
+                        elif project['title'] == "Medical Insurance Mobile App":
+                            st.success("🎉 Mobile App Demo Ready!")
+                            with st.expander("📱 App Screenshots & Features", expanded=True):
+                                col_demo1, col_demo2 = st.columns(2)
+                                with col_demo1:
+                                    st.markdown("**Key Features:**")
+                                    st.markdown("• Policy Management Dashboard")
+                                    st.markdown("• Claim Status Tracking")
+                                    st.markdown("• Healthcare Provider Locator")
+                                    st.markdown("• Secure Document Upload")
+                                with col_demo2:
+                                    st.markdown("**Technical Highlights:**")
+                                    st.markdown("• React Native Cross-Platform")
+                                    st.markdown("• Real-time Notifications")
+                                    st.markdown("• Biometric Authentication")
+                                    st.markdown("• HIPAA Compliant Security")
+                        else:
+                            st.success("🎉 Demo functionality ready for integration!")
+                            with st.spinner('Loading demo...'):
+                                import time
+                                time.sleep(1)
+                            st.info("Live demonstration available - contact for detailed walkthrough")
+                        
                 st.markdown('</div>', unsafe_allow_html=True)
             
             st.markdown("---")
@@ -634,7 +762,8 @@ def show_skills():
             "JavaScript": 85,
             "TypeScript": 80,
             "SQL": 85,
-            "C++": 70
+            "C++": 70,
+            "R": 75
         },
         "AI/ML Frameworks": {
             "TensorFlow": 90,
@@ -642,6 +771,14 @@ def show_skills():
             "Scikit-learn": 95,
             "OpenCV": 90,
             "NLTK/spaCy": 85
+        },
+        "Trading & Finance": {
+            "Algorithmic Trading": 90,
+            "Quantitative Analysis": 85,
+            "Risk Management": 80,
+            "Portfolio Optimization": 85,
+            "Technical Analysis": 88,
+            "Options Trading": 75
         },
         "Web Development": {
             "React": 85,
@@ -651,12 +788,20 @@ def show_skills():
             "Django": 85,
             "Flask": 90
         },
+        "Mobile Development": {
+            "React Native": 85,
+            "Flutter": 80,
+            "Android Development": 75,
+            "iOS Development": 70,
+            "Mobile UI/UX": 85
+        },
         "Tools & Technologies": {
             "Docker": 85,
             "Git/GitHub": 95,
             "AWS": 75,
             "PostgreSQL": 85,
-            "MongoDB": 80
+            "MongoDB": 80,
+            "Redis": 75
         }
     }
     
@@ -721,6 +866,7 @@ def show_skills():
         <li><strong>Computer Vision</strong>: Image classification, object detection, facial recognition systems</li>
         <li><strong>Natural Language Processing</strong>: Sentiment analysis, text classification, language models</li>
         <li><strong>Machine Learning</strong>: Predictive modeling, recommendation systems, data analysis pipelines</li>
+        <li><strong>Algorithmic Trading</strong>: Quantitative analysis, portfolio optimization, risk management</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -728,10 +874,11 @@ def show_skills():
     with col2:
         st.markdown("""
         <div class="highlight-box">
-        <h4 style="margin-top: 0; color: #065f46;">Full-Stack Development</h4>
+        <h4 style="margin-top: 0; color: #065f46;">Full-Stack & Mobile Development</h4>
         <ul style="margin-bottom: 0;">
         <li><strong>Frontend Technologies</strong>: React, Vue.js, Next.js, responsive design principles</li>
         <li><strong>Backend Development</strong>: FastAPI, Django, Flask, RESTful API design</li>
+        <li><strong>Mobile Development</strong>: React Native, Flutter, cross-platform applications</li>
         <li><strong>Database Management</strong>: PostgreSQL, MongoDB, data modeling and optimization</li>
         </ul>
         </div>
@@ -740,11 +887,12 @@ def show_skills():
     with col3:
         st.markdown("""
         <div class="highlight-box">
-        <h4 style="margin-top: 0; color: #065f46;">DevOps & Infrastructure</h4>
+        <h4 style="margin-top: 0; color: #065f46;">DevOps & Financial Technology</h4>
         <ul style="margin-bottom: 0;">
         <li><strong>Cloud Platforms</strong>: AWS, Azure, scalable deployment strategies</li>
         <li><strong>Containerization</strong>: Docker, microservices architecture</li>
         <li><strong>Version Control</strong>: Git, GitHub, collaborative development workflows</li>
+        <li><strong>Trading Systems</strong>: Real-time data processing, automated execution</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -864,17 +1012,33 @@ def show_contact():
         
         # CV Download button
         st.markdown("### Resume/CV")
-        if st.button("Download CV (PDF)", use_container_width=True):
-            st.info("CV download functionality would be implemented here")
+        
+        try:
+            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
+                pdf_data = pdf_file.read()
+            
+            st.download_button(
+                label="📄 Download CV (PDF)",
+                data=pdf_data,
+                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                help="Download my complete resume with project details"
+            )
+        except FileNotFoundError:
+            if st.button("📄 Download CV (PDF)", use_container_width=True):
+                st.error("Resume file not found. Please contact me directly for the latest version.")
+        
+        st.markdown("*Updated: August 2025*")
         
         # Social links
         st.markdown("### Professional Networks")
         
-        # GitHub link (you'll replace with your actual link)
-        st.markdown("**GitHub:** [Professional Repository](https://github.com/yourusername)")
-        st.markdown("**LinkedIn:** [Professional Profile](https://linkedin.com/in/yourusername)")
-        st.markdown("**Email:** professional.email@gmail.com")
-        st.markdown("**Phone:** +1 (xxx) xxx-xxxx")
+        # GitHub link (updated with actual links)
+        st.markdown("**GitHub:** [JuliusMutugu](https://github.com/JuliusMutugu)")
+        st.markdown("**LinkedIn:** [Julius Mutugu](https://ke.linkedin.com/in/julius-mutugu-a3483b279)")
+        st.markdown("**Email:** ndegwajulius239@gmail.com")
+        st.markdown("**Location:** Nairobi, Kenya")
         
         # Contact info card
         st.markdown("""
