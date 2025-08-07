@@ -412,6 +412,18 @@ def load_lottie_url(url: str):
         return None
 
 @st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_github_profile_image(username: str = "JuliusMutugu") -> str:
+    """Get GitHub profile image URL"""
+    try:
+        response = requests.get(f"https://api.github.com/users/{username}")
+        if response.status_code == 200:
+            user_data = response.json()
+            return user_data.get('avatar_url', '')
+        return ''
+    except:
+        return ''
+
+@st.cache_data(ttl=3600)  # Cache for 1 hour
 def fetch_github_data(username: str = "JuliusMutugu") -> Dict:
     """Fetch GitHub user data and repositories with caching"""
     try:
@@ -727,7 +739,9 @@ def create_application_pdf(company_name: str, position: str, application_data: D
 @st.cache_data(ttl=1800)  # Cache for 30 minutes
 def scrape_job_opportunities(keywords: List[str] = ["Software Engineer", "AI Engineer", "ML Engineer"], 
                            location: str = "Remote", 
-                           experience_level: str = "Entry Level") -> List[Dict]:
+                           experience_level: str = "Entry Level",
+                           job_type: str = "All",
+                           visa_sponsorship: str = "Any") -> List[Dict]:
     """Scrape job opportunities from multiple sources"""
     jobs = []
     
@@ -951,15 +965,115 @@ def scrape_job_opportunities(keywords: List[str] = ["Software Engineer", "AI Eng
             "source": "Twiga Foods",
             "remote_friendly": False,
             "visa_sponsorship": False
+        },
+        {
+            "title": "Senior Data Engineer",
+            "company": "Airbnb",
+            "location": "San Francisco, CA / Remote",
+            "type": "Full-time",
+            "experience": "Senior Level",
+            "salary": "$180,000 - $250,000",
+            "description": "Lead data infrastructure and analytics platform development",
+            "skills": ["Python", "Spark", "Kafka", "AWS", "Data Engineering"],
+            "posted": "2 days ago",
+            "apply_url": "https://careers.airbnb.com/",
+            "source": "Airbnb Careers",
+            "remote_friendly": True,
+            "visa_sponsorship": True
+        },
+        {
+            "title": "Frontend Developer",
+            "company": "Shopify",
+            "location": "Ottawa, Canada / Remote",
+            "type": "Contract",
+            "experience": "Mid Level",
+            "salary": "$80,000 - $120,000",
+            "description": "Build beautiful and functional e-commerce user interfaces",
+            "skills": ["React", "TypeScript", "CSS", "JavaScript", "GraphQL"],
+            "posted": "1 day ago",
+            "apply_url": "https://www.shopify.com/careers/",
+            "source": "Shopify Careers",
+            "remote_friendly": True,
+            "visa_sponsorship": False
+        },
+        {
+            "title": "DevOps Engineer Intern",
+            "company": "Stripe",
+            "location": "Dublin, Ireland / Hybrid",
+            "type": "Internship",
+            "experience": "Student",
+            "salary": "€4,000 - €6,000/month",
+            "description": "Summer internship in cloud infrastructure and deployment automation",
+            "skills": ["Docker", "Kubernetes", "AWS", "Terraform", "CI/CD"],
+            "posted": "3 days ago",
+            "apply_url": "https://stripe.com/jobs/",
+            "source": "Stripe Careers",
+            "remote_friendly": False,
+            "visa_sponsorship": True
+        },
+        {
+            "title": "Part-time Python Tutor",
+            "company": "Codecademy",
+            "location": "Remote",
+            "type": "Part-time",
+            "experience": "Entry Level",
+            "salary": "$25 - $40/hour",
+            "description": "Help students learn Python programming through online tutoring",
+            "skills": ["Python", "Teaching", "Communication", "Programming"],
+            "posted": "1 week ago",
+            "apply_url": "https://www.codecademy.com/about/careers/",
+            "source": "Codecademy",
+            "remote_friendly": True,
+            "visa_sponsorship": False
+        },
+        {
+            "title": "Blockchain Developer",
+            "company": "Coinbase",
+            "location": "San Francisco, CA / On-site",
+            "type": "Full-time",
+            "experience": "Mid Level",
+            "salary": "$150,000 - $220,000",
+            "description": "Develop secure and scalable cryptocurrency trading systems",
+            "skills": ["Solidity", "Web3", "Blockchain", "JavaScript", "Security"],
+            "posted": "4 days ago",
+            "apply_url": "https://www.coinbase.com/careers/",
+            "source": "Coinbase Careers",
+            "remote_friendly": False,
+            "visa_sponsorship": True
         }
     ]
     
-    # Filter jobs based on criteria
+    # Filter jobs based on criteria with enhanced search
     filtered_jobs = []
     for job in sample_jobs:
-        # Filter by keywords
-        job_text = f"{job['title']} {job['description']} {' '.join(job['skills'])}".lower()
-        if any(keyword.lower() in job_text for keyword in keywords):
+        # Enhanced keyword filtering - more flexible matching
+        keyword_match = True
+        if keywords and any(k.strip() for k in keywords):  # Only filter if keywords provided and not empty
+            job_text = f"{job['title']} {job['description']} {' '.join(job['skills'])} {job['company']}".lower()
+            # Check for partial matches and synonyms
+            keyword_match = False
+            for keyword in keywords:
+                keyword = keyword.lower().strip()
+                if keyword:
+                    # Direct match
+                    if keyword in job_text:
+                        keyword_match = True
+                        break
+                    # Synonym matching for common terms
+                    if keyword in ["ai", "artificial intelligence"] and ("ai" in job_text or "artificial intelligence" in job_text or "machine learning" in job_text):
+                        keyword_match = True
+                        break
+                    elif keyword in ["ml", "machine learning"] and ("ml" in job_text or "machine learning" in job_text or "ai" in job_text):
+                        keyword_match = True
+                        break
+                    elif keyword in ["software", "developer", "engineer"] and any(term in job_text for term in ["software", "developer", "engineer", "development"]):
+                        keyword_match = True
+                        break
+                    elif keyword in ["data", "analyst", "scientist"] and any(term in job_text for term in ["data", "analyst", "scientist", "analytics"]):
+                        keyword_match = True
+                        break
+        
+        if keyword_match:
             # Enhanced location filtering
             location_match = False
             job_location = job['location'].lower()
@@ -976,27 +1090,70 @@ def scrape_job_opportunities(keywords: List[str] = ["Software Engineer", "AI Eng
             elif location_filter in job_location:
                 location_match = True
             # Handle specific cities and countries
-            elif location_filter == "nairobi" and "remote" in job_location:
+            elif location_filter == "nairobi" and ("remote" in job_location or "nairobi" in job_location):
                 location_match = True  # Remote jobs are accessible from Nairobi
-            elif location_filter == "kenya" and ("remote" in job_location or "nairobi" in job_location):
+            elif location_filter == "kenya" and ("remote" in job_location or "nairobi" in job_location or "kenya" in job_location):
                 location_match = True
-            elif location_filter == "africa" and ("remote" in job_location or "nairobi" in job_location):
+            elif location_filter == "africa" and ("remote" in job_location or "nairobi" in job_location or "africa" in job_location):
+                location_match = True
+            # International locations accessible via remote
+            elif job['remote_friendly'] and location_filter in ["san francisco", "new york", "seattle", "austin", "london", "berlin", "toronto", "sydney"]:
                 location_match = True
             
             # Filter by experience level if specified
             experience_match = True
             if experience_level.lower() != "all":
-                if experience_level.lower() == "entry level" and job['experience'] != "Entry Level":
+                job_exp = job['experience'].lower()
+                exp_filter = experience_level.lower()
+                
+                if exp_filter == "entry level" and job_exp != "entry level":
                     experience_match = False
-                elif experience_level.lower() == "mid level" and job['experience'] not in ["Mid Level", "Entry Level"]:
+                elif exp_filter == "mid level" and job_exp not in ["mid level", "entry level"]:
                     experience_match = False
-                elif experience_level.lower() == "senior level" and job['experience'] != "Senior Level":
+                elif exp_filter == "senior level" and job_exp != "senior level":
                     experience_match = False
-                elif experience_level.lower() == "student" and job['experience'] != "Student":
+                elif exp_filter == "student" and job_exp != "student":
                     experience_match = False
             
-            if location_match and experience_match:
+            # Filter by job type if specified
+            job_type_match = True
+            if job_type.lower() != "all":
+                if job_type.lower() != job['type'].lower():
+                    job_type_match = False
+            
+            # Filter by visa sponsorship if specified
+            visa_match = True
+            if visa_sponsorship.lower() != "any":
+                if visa_sponsorship.lower() == "required" and not job.get('visa_sponsorship', False):
+                    visa_match = False
+                elif visa_sponsorship.lower() == "not required" and job.get('visa_sponsorship', False):
+                    visa_match = False
+            
+            if location_match and experience_match and job_type_match and visa_match:
                 filtered_jobs.append(job)
+    
+    # Sort by posted date (newest first) - convert "X days/weeks ago" to datetime for sorting
+    def parse_posted_date(posted_str):
+        from datetime import datetime, timedelta
+        import re
+        
+        if "day" in posted_str:
+            days = int(re.findall(r'\d+', posted_str)[0]) if re.findall(r'\d+', posted_str) else 0
+            return datetime.now() - timedelta(days=days)
+        elif "week" in posted_str:
+            weeks = int(re.findall(r'\d+', posted_str)[0]) if re.findall(r'\d+', posted_str) else 1
+            return datetime.now() - timedelta(weeks=weeks)
+        elif "hour" in posted_str:
+            hours = int(re.findall(r'\d+', posted_str)[0]) if re.findall(r'\d+', posted_str) else 0
+            return datetime.now() - timedelta(hours=hours)
+        else:
+            return datetime.now() - timedelta(days=30)  # Default to 30 days ago
+    
+    # Add parsed date for sorting and sort by date (newest first)
+    for job in filtered_jobs:
+        job['parsed_date'] = parse_posted_date(job['posted'])
+    
+    filtered_jobs.sort(key=lambda x: x['parsed_date'], reverse=True)
     
     return filtered_jobs
 
@@ -1080,19 +1237,7 @@ def main():
     
     # Sidebar navigation
     with st.sidebar:
-        st.markdown('<div class="navigation-header">Portfolio Navigation</div>', unsafe_allow_html=True)
-        
-        # Add a small profile section
-        profile_border = "rgba(245, 158, 11, 0.3)" if st.session_state.theme == 'modern_light' else "rgba(251, 191, 36, 0.4)"
-        profile_text_color = "#1e40af" if st.session_state.theme == 'modern_light' else "#f1f5f9"
-        profile_gradient = "linear-gradient(135deg, #f59e0b 0%, #3b82f6 100%)" if st.session_state.theme == 'modern_light' else "linear-gradient(135deg, #fbbf24 0%, #3b82f6 100%)"
-        
-        st.markdown(f"""
-        <div style="text-align: center; padding: 1rem 0; border-bottom: 1px solid {profile_border}; margin-bottom: 1rem;">
-            <div style="width: 80px; height: 80px; border-radius: 50%; background: {profile_gradient}; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">J</div>
-            <div style="font-size: 0.9rem; color: {profile_text_color}; opacity: 0.8;">AI Software Engineer</div>
-        </div>
-        """, unsafe_allow_html=True)
+        # st.markdown('<div class="navigation-header">Portfolio Navigation</div>', unsafe_allow_html=True)
         
         # Get the current page index
         pages = ["Home", "Projects", "Skills", "Experience", "Education", "Apply", "Find Jobs", "Contact"]
@@ -1173,6 +1318,19 @@ def main():
             </div>
         </div>
         """, unsafe_allow_html=True)
+        
+        # Add profile section at the bottom
+        st.markdown("---")
+        profile_border = "rgba(245, 158, 11, 0.3)" if st.session_state.theme == 'modern_light' else "rgba(251, 191, 36, 0.4)"
+        profile_text_color = "#1e40af" if st.session_state.theme == 'modern_light' else "#f1f5f9"
+        profile_gradient = "linear-gradient(135deg, #f59e0b 0%, #3b82f6 100%)" if st.session_state.theme == 'modern_light' else "linear-gradient(135deg, #fbbf24 0%, #3b82f6 100%)"
+        
+        st.markdown(f"""
+        <div style="text-align: center; padding: 1rem 0; border-top: 1px solid {profile_border}; margin-top: 1rem;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: {profile_gradient}; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">J</div>
+            <div style="font-size: 0.9rem; color: {profile_text_color}; opacity: 0.8;">AI Software Engineer</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Main content based on navigation
     current_page = st.session_state.selected_page
@@ -1195,66 +1353,39 @@ def main():
 
 def show_home():
     """Enhanced home page with comprehensive overview"""
-    # Hero section with animations
-    col1, col2, col3 = st.columns([1, 2, 1])
+    # Top header with smaller profile image and animation
+    header_col1, header_col2, header_col3 = st.columns([1, 1, 1])
     
-    with col2:
-        st.markdown('<h1 class="main-header">Julius Mutugu</h1>', unsafe_allow_html=True)
-        st.markdown('<p class="sub-header">AI & Software Engineer | FAANG Ready</p>', unsafe_allow_html=True)
-        
-        # Load animation
+    with header_col1:
+        # Get and display GitHub profile image (smaller)
+        profile_image_url = get_github_profile_image()
+        if profile_image_url:
+            st.markdown(f"""
+            <div style="text-align: center; margin-bottom: 10px;">
+                <img src="{profile_image_url}" 
+                     style="width: 80px; height: 80px; border-radius: 50%; 
+                            border: 2px solid var(--primary-color); 
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                            animation: pulse 2s infinite;">
+            </div>
+            <style>
+            @keyframes pulse {{
+                0% {{ transform: scale(1); }}
+                50% {{ transform: scale(1.05); }}
+                100% {{ transform: scale(1); }}
+            }}
+            </style>
+            """, unsafe_allow_html=True)
+    
+    with header_col2:
+        st.markdown('<h1 class="main-header" style="text-align: center; margin-bottom: 5px;">Julius Mutugu</h1>', unsafe_allow_html=True)
+        st.markdown('<p class="sub-header" style="text-align: center;">AI & Software Engineer</p>', unsafe_allow_html=True)
+    
+    with header_col3:
+        # Load animation (smaller)
         lottie_coding = load_lottie_url("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
         if lottie_coding:
-            st_lottie(lottie_coding, height=350, key="coding")
-    
-    st.markdown("---")
-    
-    # Quick actions as horizontal tabs - moved to top
-    st.markdown("### Quick Actions")
-    
-    # Create tabs for quick actions
-    action_tabs = st.tabs(["📄 Resume", "🚀 Projects", "🎯 Skills", "📧 Apply", "💬 Contact"])
-    
-    with action_tabs[0]:
-        st.markdown("**Download Professional Resume**")
-        try:
-            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
-                pdf_data = pdf_file.read()
-            
-            st.download_button(
-                label="Download Resume (PDF)",
-                data=pdf_data,
-                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-                help="Download my complete professional resume"
-            )
-        except FileNotFoundError:
-            st.info("Resume available upon request. Contact me directly for the latest version.")
-    
-    with action_tabs[1]:
-        st.markdown("**Explore My Projects**")
-        if st.button("View All Projects", use_container_width=True, key="home_projects"):
-            st.session_state.selected_page = "Projects"
-            st.rerun()
-    
-    with action_tabs[2]:
-        st.markdown("**Technical Skills Overview**")
-        if st.button("View Skills & Expertise", use_container_width=True, key="home_skills"):
-            st.session_state.selected_page = "Skills"
-            st.rerun()
-    
-    with action_tabs[3]:
-        st.markdown("**Apply for Positions**")
-        if st.button("Start Application Process", use_container_width=True, key="home_apply"):
-            st.session_state.selected_page = "Apply"
-            st.rerun()
-    
-    with action_tabs[4]:
-        st.markdown("**Get in Touch**")
-        if st.button("Contact Information", use_container_width=True, key="home_contact"):
-            st.session_state.selected_page = "Contact"
-            st.rerun()
+            st_lottie(lottie_coding, height=120, key="coding")
     
     st.markdown("---")
     
@@ -1347,7 +1478,7 @@ def show_home():
             <strong>Bachelor of Software Engineering</strong><br>
             <span style="color: #10b981; font-weight: 600;">University of Eastern Africa, Baraton</span><br>
             <em>AI & Machine Learning Specialization</em><br>
-            <em>Graduated: 2025 | GPA: Excellent</em>
+            <em>Graduated: 2025 | GPA: Excellent(3.5)</em>
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -1432,6 +1563,54 @@ def show_home():
         </p>
     </div>
     """, unsafe_allow_html=True)
+    
+    # Quick actions moved to bottom
+    st.markdown("---")
+    st.markdown("### Quick Actions")
+    
+    # Create tabs for quick actions
+    action_tabs = st.tabs(["📄 Resume", "🚀 Projects", "🎯 Skills", "📧 Apply", "💬 Contact"])
+    
+    with action_tabs[0]:
+        st.markdown("**Download Professional Resume**")
+        try:
+            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
+                pdf_data = pdf_file.read()
+            
+            st.download_button(
+                label="Download Resume (PDF)",
+                data=pdf_data,
+                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                help="Download my complete professional resume"
+            )
+        except FileNotFoundError:
+            st.info("Resume available upon request. Contact me directly for the latest version.")
+    
+    with action_tabs[1]:
+        st.markdown("**Explore My Projects**")
+        if st.button("View All Projects", use_container_width=True, key="home_projects"):
+            st.session_state.selected_page = "Projects"
+            st.rerun()
+    
+    with action_tabs[2]:
+        st.markdown("**Technical Skills Overview**")
+        if st.button("View Skills & Expertise", use_container_width=True, key="home_skills"):
+            st.session_state.selected_page = "Skills"
+            st.rerun()
+    
+    with action_tabs[3]:
+        st.markdown("**Apply for Positions**")
+        if st.button("Start Application Process", use_container_width=True, key="home_apply"):
+            st.session_state.selected_page = "Apply"
+            st.rerun()
+    
+    with action_tabs[4]:
+        st.markdown("**Get in Touch**")
+        if st.button("Contact Information", use_container_width=True, key="home_contact"):
+            st.session_state.selected_page = "Contact"
+            st.rerun()
 
 def show_projects():
     """Projects showcase with real-time GitHub integration and filtering"""
@@ -1441,23 +1620,6 @@ def show_projects():
     # Fetch GitHub data
     with st.spinner("Loading latest projects from GitHub..."):
         github_data = fetch_github_data("JuliusMutugu")
-    
-    # Display GitHub stats
-    if "error" not in github_data:
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Repositories", github_data.get('user', {}).get('public_repos', 'N/A'))
-        with col2:
-            total_stars = sum(r.get('stars', 0) for r in github_data.get('repositories', []))
-            st.metric("Total Stars", total_stars)
-        with col3:
-            total_forks = sum(r.get('forks', 0) for r in github_data.get('repositories', []))
-            st.metric("Total Forks", total_forks)
-        with col4:
-            languages = set(r.get('language') for r in github_data.get('repositories', []) if r.get('language'))
-            st.metric("Languages Used", len(languages))
-        
-        st.markdown("---")
     
     # Project categories
     categories = ["All", "Computer Vision", "Natural Language Processing", "Machine Learning", "Web Development", "Mobile Development", "Data Analysis"]
@@ -2872,6 +3034,31 @@ def show_jobs():
     st.markdown(f'<h1 style="{header_color} text-align: center; margin-bottom: 2rem;">🔍 Discover Your Next Opportunity</h1>', 
                 unsafe_allow_html=True)
     
+    # Handle auto search if triggered
+    if 'auto_search' in st.session_state:
+        auto_params = st.session_state.auto_search
+        del st.session_state.auto_search  # Remove after using
+        
+        # Trigger the search with auto parameters
+        jobs = scrape_job_opportunities(
+            keywords=auto_params['keywords'],
+            location=auto_params['location'],
+            experience_level=auto_params['experience'],
+            job_type=auto_params['job_type'],
+            visa_sponsorship=auto_params['visa']
+        )
+        
+        # Get GitHub data for recommendations
+        github_data = fetch_github_data("julimore")
+        user_skills = ["Python", "Machine Learning", "Computer Vision", "NLP", "Software Engineering"]
+        recommended_jobs = get_job_recommendations(github_data, user_skills)
+        
+        # Store in session state
+        st.session_state.job_results = jobs
+        st.session_state.recommended_jobs = recommended_jobs
+        
+        st.success(f"Found {len(jobs)} jobs for: {', '.join(auto_params['keywords'])}")
+
     # Job search filters
     st.markdown(f'<h3 style="{secondary_color}">Search Filters</h3>', unsafe_allow_html=True)
     
@@ -2906,8 +3093,20 @@ def show_jobs():
     
     # Search button
     if st.button("🔍 Search Jobs", type="primary"):
+        # Clear any existing cache to ensure fresh results
+        scrape_job_opportunities.clear()
+        
         with st.spinner("Searching for opportunities..."):
-            jobs = scrape_job_opportunities(keyword_list, location_pref, experience_level)
+            jobs = scrape_job_opportunities(
+                keywords=keyword_list, 
+                location=location_pref, 
+                experience_level=experience_level,
+                job_type=job_type,
+                visa_sponsorship=visa_sponsorship
+            )
+            
+            # Debug information
+            st.info(f"Applied filters: Keywords: {keyword_list}, Location: {location_pref}, Experience: {experience_level}, Job Type: {job_type}, Visa: {visa_sponsorship}")
             
             # Get GitHub data for recommendations
             github_data = fetch_github_data("julimore")  # Replace with actual username
@@ -3167,6 +3366,70 @@ def show_jobs():
                         st.metric("Min Salary", f"${min_salary:,.0f}")
                     with salary_col3:
                         st.metric("Max Salary", f"${max_salary:,.0f}")
+    else:
+        # No search performed yet or no results found
+        st.markdown(f'<h3 style="{secondary_color}">🚀 Get Started</h3>', unsafe_allow_html=True)
+        
+        if 'job_results' in st.session_state and not st.session_state.job_results:
+            # Search was performed but no results found
+            st.warning("No jobs found matching your criteria. Try adjusting your filters or keywords.")
+            st.info("💡 **Tips for better results:**")
+            st.markdown("• Try broader keywords (e.g., 'Software' instead of 'Software Engineer')")
+            st.markdown("• Select 'Any' for location to see all remote opportunities")
+            st.markdown("• Choose 'All' for experience level")
+            st.markdown("• Use general terms like 'Python', 'AI', or 'Data'")
+        else:
+            # No search performed yet
+            st.info("👆 Use the filters above and click 'Search Jobs' to find opportunities tailored to your preferences!")
+            
+            # Show sample statistics
+            sample_stats_col1, sample_stats_col2, sample_stats_col3, sample_stats_col4 = st.columns(4)
+            
+            with sample_stats_col1:
+                st.metric("Total Jobs Available", "19+", "Across multiple industries")
+            with sample_stats_col2:
+                st.metric("Remote Opportunities", "15+", "Work from anywhere")
+            with sample_stats_col3:
+                st.metric("FAANG Companies", "5", "Top tech companies")
+            with sample_stats_col4:
+                st.metric("Entry Level", "8+", "Perfect for new graduates")
+            
+            # Example search suggestions
+            st.markdown("**🔍 Try these popular searches:**")
+            suggestion_col1, suggestion_col2, suggestion_col3 = st.columns(3)
+            
+            with suggestion_col1:
+                if st.button("🤖 AI & Machine Learning Jobs", use_container_width=True):
+                    st.session_state.auto_search = {
+                        'keywords': ['AI', 'Machine Learning', 'Python'],
+                        'location': 'Remote',
+                        'experience': 'Entry Level',
+                        'job_type': 'Full-time',
+                        'visa': 'Any'
+                    }
+                    st.rerun()
+            
+            with suggestion_col2:
+                if st.button("💻 Software Engineering", use_container_width=True):
+                    st.session_state.auto_search = {
+                        'keywords': ['Software Engineer', 'Developer', 'Programming'],
+                        'location': 'Any',
+                        'experience': 'Entry Level', 
+                        'job_type': 'All',
+                        'visa': 'Any'
+                    }
+                    st.rerun()
+            
+            with suggestion_col3:
+                if st.button("🎓 Internships", use_container_width=True):
+                    st.session_state.auto_search = {
+                        'keywords': ['Intern', 'Student', 'Entry'],
+                        'location': 'Any',
+                        'experience': 'Student',
+                        'job_type': 'Internship',
+                        'visa': 'Any'
+                    }
+                    st.rerun()
     
     # Job alerts section
     st.markdown("---")
