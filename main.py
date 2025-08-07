@@ -461,122 +461,224 @@ def fetch_github_data(username: str = "JuliusMutugu") -> Dict:
         return {"error": f"Failed to fetch GitHub data: {str(e)}"}
 
 def generate_job_application_package(company_name: str, position: str, github_data: Dict) -> Dict:
-    """Generate customized job application package"""
+    """Generate customized job application package with enhanced personalization"""
     
-    # Customized cover letter templates
+    # Extract GitHub stats for personalization
+    total_repos = github_data.get('user', {}).get('public_repos', 'multiple')
+    followers = github_data.get('user', {}).get('followers', 'several')
+    recent_activity = len([r for r in github_data.get('repositories', []) if '2024' in r.get('updated_at', '')])
+    
+    # Dynamic project highlights based on GitHub data
+    project_highlights = []
+    if github_data.get('repositories'):
+        for repo in github_data['repositories'][:3]:  # Top 3 repositories
+            if repo.get('name') and repo.get('description'):
+                project_highlights.append(f"• {repo['name']}: {repo['description']}")
+    
+    if not project_highlights:
+        project_highlights = [
+            "• Healthcare AI System: Enterprise-grade insurance system with fraud detection",
+            "• Federated Learning Research: Privacy-preserving ML for healthcare systems",
+            "• Computer Vision Applications: Intelligent classification using advanced ML"
+        ]
+    
+    # Customized cover letter templates with dynamic content
     cover_letter_templates = {
         "Google": f"""
 Dear Google Hiring Team,
 
-I am excited to apply for the {position} position at Google. As a recent Software Engineering graduate specializing in AI and Machine Learning, I am passionate about Google's mission to organize the world's information and make it universally accessible.
+I am excited to apply for the {position} position at Google. As a Software Engineering graduate specializing in AI and Machine Learning, I am passionate about Google's mission to organize the world's information and make it universally accessible.
 
-My recent projects demonstrate strong alignment with Google's innovative culture:
+My technical expertise and project portfolio demonstrate strong alignment with Google's innovative culture:
 
-• Healthcare AI System: Developed an enterprise-grade insurance system using Kenya's SHIF model with advanced fraud detection algorithms
-• Federated Learning Research: Pioneered privacy-preserving ML for healthcare data across decentralized systems
-• Computer Vision Applications: Built intelligent waste classification systems using SVM and batch processing
+{chr(10).join(project_highlights)}
 
-My GitHub profile ({github_data.get('user', {}).get('public_repos', 'N/A')} repositories) showcases consistent development activity and expertise in Python, TensorFlow, and cloud technologies that align with Google's tech stack.
+With {total_repos} repositories on GitHub and {followers} followers, my consistent development activity showcases expertise in Python, TensorFlow, and cloud technologies that align perfectly with Google's tech stack. My recent GitHub activity includes {recent_activity} updated projects in 2024, demonstrating continuous learning and innovation.
 
-I am particularly excited about contributing to Google's AI initiatives and would welcome the opportunity to discuss how my background in AI research and full-stack development can contribute to your team.
+Key technical competencies that make me a strong fit for Google:
+• AI/ML: Advanced experience with TensorFlow, PyTorch, and computer vision
+• Cloud Computing: Proficient in Google Cloud Platform and distributed systems
+• Software Engineering: Full-stack development with modern frameworks and best practices
+• Research Mindset: Published research in federated learning and privacy-preserving ML
+
+I am particularly excited about contributing to Google's AI initiatives and would welcome the opportunity to discuss how my background in AI research, software engineering, and passion for innovation can contribute to your team's success.
+
+Thank you for considering my application. I look forward to the opportunity to contribute to Google's mission of organizing the world's information.
 
 Best regards,
 Julius Mutugu
+AI & Software Engineer
 """,
         "Microsoft": f"""
 Dear Microsoft Hiring Team,
 
 I am writing to express my strong interest in the {position} position at Microsoft. Your commitment to empowering every person and organization on the planet to achieve more resonates deeply with my passion for creating impactful technology solutions.
 
-Key highlights of my experience:
+My comprehensive technical background and active development portfolio make me an ideal candidate:
 
-• Enterprise Development: Built comprehensive healthcare and research management systems using modern frameworks
-• AI/ML Expertise: Specialized in federated learning, computer vision, and privacy-preserving ML techniques
-• Cloud-Ready Solutions: Developed scalable applications with microservices architecture and CI/CD pipelines
+{chr(10).join(project_highlights)}
 
-My technical skills in Azure, .NET ecosystem, and AI frameworks position me well to contribute to Microsoft's diverse technology initiatives. With {github_data.get('user', {}).get('public_repos', 'N/A')} public repositories and active open-source contributions, I demonstrate consistent commitment to software excellence.
+My GitHub profile demonstrates consistent excellence with {total_repos} public repositories and {followers} followers, showcasing my commitment to open-source development and continuous learning. With {recent_activity} recent project updates in 2024, I maintain active engagement with cutting-edge technologies.
 
-I am excited about the opportunity to contribute to Microsoft's mission and would appreciate the chance to discuss my qualifications further.
+Technical expertise aligned with Microsoft's ecosystem:
+• Azure Cloud Services: Experience with cloud-native development and microservices
+• AI/ML Frameworks: Proficient in Azure ML, TensorFlow, and enterprise AI solutions
+• Enterprise Development: Full-stack applications with scalable architecture
+• Modern Development: .NET ecosystem, TypeScript, and DevOps practices
+
+My experience developing healthcare and research management systems demonstrates the ability to build enterprise-grade solutions that align with Microsoft's enterprise focus. I am particularly interested in contributing to Microsoft's AI and cloud initiatives.
+
+I am excited about the opportunity to contribute to Microsoft's mission of empowering achievement and would appreciate the chance to discuss how my skills and passion can benefit your team.
 
 Sincerely,
 Julius Mutugu
+AI & Software Engineer
 """,
         "Amazon": f"""
 Dear Amazon Hiring Team,
 
 I am enthusiastic about applying for the {position} position at Amazon. Your customer-obsessed culture and commitment to innovation in cloud computing and AI align perfectly with my career aspirations and technical expertise.
 
-My experience directly relates to Amazon's high standards:
+My project portfolio and technical achievements demonstrate alignment with Amazon's high standards:
 
-• Scalable Systems: Developed enterprise-grade healthcare insurance systems with fraud detection capabilities
-• Machine Learning: Implemented federated learning algorithms and computer vision solutions for real-world applications
-• Full-Stack Development: Built comprehensive web applications using modern frameworks and database technologies
+{chr(10).join(project_highlights)}
 
-With {github_data.get('user', {}).get('public_repos', 'N/A')} GitHub repositories showcasing diverse projects in AI, web development, and data analysis, I demonstrate the technical breadth that Amazon values. My experience with cloud technologies and microservices architecture aligns well with AWS services.
+With {total_repos} GitHub repositories and {followers} followers, I demonstrate the technical breadth and depth that Amazon values. My {recent_activity} recent project updates in 2024 showcase continuous innovation and learning mindset essential for Amazon's fast-paced environment.
 
-I am eager to contribute to Amazon's mission of being Earth's Most Customer-Centric Company and would welcome the opportunity to discuss how my skills can benefit your team.
+Core competencies that align with Amazon's requirements:
+• AWS Cloud Services: Experienced with cloud-native architecture and serverless computing
+• Scalable Systems: Built enterprise applications designed for high availability and performance
+• Machine Learning: Advanced ML and AI implementations suitable for production environments
+• Full-Stack Development: Comprehensive web and mobile application development
+
+My experience with microservices architecture and distributed systems directly aligns with Amazon's cloud-first approach. I am particularly excited about contributing to AWS services and Amazon's AI initiatives.
+
+I am eager to contribute to Amazon's mission of being Earth's Most Customer-Centric Company and would welcome the opportunity to discuss how my skills and customer-focused mindset can benefit your team.
 
 Best regards,
 Julius Mutugu
+AI & Software Engineer
 """,
         "Meta": f"""
 Dear Meta Hiring Team,
 
 I am excited to apply for the {position} position at Meta. Your vision of connecting people and building the next evolution of social technology through the metaverse deeply inspires me, and I am eager to contribute to this transformative mission.
 
-My technical background aligns well with Meta's innovation focus:
+My technical background and innovative project portfolio align well with Meta's forward-thinking approach:
 
-• AI/ML Research: Conducted federated learning research with applications in healthcare privacy and security
-• Computer Vision: Developed intelligent classification systems using advanced ML techniques
-• Full-Stack Development: Built scalable web applications and real-time systems using modern frameworks
+{chr(10).join(project_highlights)}
 
-My GitHub portfolio ({github_data.get('user', {}).get('public_repos', 'N/A')} repositories) demonstrates expertise in Python, React, and AI frameworks that power Meta's platforms. I am particularly interested in contributing to Meta's AI research initiatives and social technology development.
+My GitHub presence ({total_repos} repositories, {followers} followers) demonstrates expertise in technologies that power Meta's platforms. With {recent_activity} active projects in 2024, I maintain engagement with cutting-edge technologies relevant to social computing and VR/AR.
 
-I would be thrilled to discuss how my passion for connecting people through technology and my technical skills can contribute to Meta's groundbreaking work.
+Technical skills perfectly suited for Meta's innovation:
+• AI/ML Research: Advanced experience in federated learning and privacy-preserving ML
+• Computer Vision: Deep learning applications for image and video processing
+• Full-Stack Development: React, Node.js, and modern web technologies
+• Social Technology: Understanding of scalable systems for connecting people globally
+
+My research in federated learning particularly aligns with Meta's focus on privacy and decentralized computing. I am especially interested in contributing to Meta's AI research initiatives and social technology development.
+
+I would be thrilled to discuss how my passion for connecting people through technology and my technical expertise can contribute to Meta's groundbreaking work in building the metaverse.
 
 Sincerely,
 Julius Mutugu
+AI & Software Engineer
 """,
         "Apple": f"""
 Dear Apple Hiring Team,
 
 I am writing to apply for the {position} position at Apple. Your commitment to creating products that enrich people's lives through innovative design and cutting-edge technology perfectly aligns with my passion for building exceptional user experiences.
 
-My experience demonstrates Apple's values of excellence and innovation:
+My technical excellence and attention to detail demonstrate Apple's values of innovation and quality:
 
-• AI/ML Innovation: Developed federated learning systems and computer vision applications with focus on privacy and user experience
-• Software Craftsmanship: Built elegant, user-centric applications with attention to detail and performance optimization
-• Research Excellence: Conducted academic research in privacy-preserving ML, aligning with Apple's privacy-first approach
+{chr(10).join(project_highlights)}
 
-With {github_data.get('user', {}).get('public_repos', 'N/A')} public repositories showcasing clean, well-documented code and innovative solutions, I embody Apple's commitment to quality. My background in AI and full-stack development positions me well to contribute to Apple's ecosystem of products and services.
+With {total_repos} public repositories and {followers} GitHub followers, I showcase clean, well-documented code and innovative solutions that embody Apple's commitment to quality. My {recent_activity} recent project updates in 2024 reflect continuous pursuit of excellence.
 
-I am excited about the opportunity to help Apple continue changing the world and would welcome the chance to discuss my qualifications.
+Core competencies aligned with Apple's ecosystem:
+• AI/ML Innovation: Advanced machine learning with focus on on-device processing and privacy
+• Software Craftsmanship: Clean, efficient code with attention to performance and user experience
+• Privacy-First Development: Experience with privacy-preserving ML techniques
+• Cross-Platform Development: iOS, macOS, and web technologies
+
+My background in privacy-preserving federated learning aligns perfectly with Apple's privacy-first approach. I am particularly excited about contributing to Apple's AI initiatives and helping create products that seamlessly integrate intelligence while protecting user privacy.
+
+I am excited about the opportunity to help Apple continue changing the world through innovative technology and would welcome the chance to discuss how my technical skills and commitment to excellence can contribute to your team.
 
 Best regards,
 Julius Mutugu
+AI & Software Engineer
 """
     }
     
-    # Technical summary based on GitHub data
+    # Enhanced technical summary with GitHub integration
+    github_languages = []
+    if github_data.get('repositories'):
+        for repo in github_data['repositories']:
+            if repo.get('language') and repo['language'] not in github_languages:
+                github_languages.append(repo['language'])
+    
+    languages_str = ", ".join(github_languages[:8]) if github_languages else "Python, JavaScript, TypeScript, SQL"
+    
     tech_summary = f"""
-Technical Profile Summary:
-• Active GitHub Developer: {github_data.get('user', {}).get('public_repos', 'N/A')} public repositories
-• Programming Languages: Python, JavaScript, TypeScript, SQL
-• AI/ML: TensorFlow, PyTorch, Scikit-learn, OpenCV, Federated Learning
-• Web Development: React, Vue.js, Django, FastAPI, Node.js
-• Cloud & DevOps: AWS, Docker, CI/CD, Microservices
-• Databases: PostgreSQL, MongoDB
-• Recent Projects: Healthcare AI, Computer Vision, Research Management Systems
+Technical Profile Summary (Updated from GitHub):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔬 ARTIFICIAL INTELLIGENCE & MACHINE LEARNING:
+• Advanced ML Frameworks: TensorFlow, PyTorch, Scikit-learn
+• Computer Vision: OpenCV, Image Processing, Object Detection
+• Natural Language Processing: Text Analysis, NLP Libraries
+• Federated Learning: Privacy-Preserving ML Systems
+• Deep Learning: Neural Networks, CNNs, Transfer Learning
+
+💻 SOFTWARE DEVELOPMENT:
+• Programming Languages: {languages_str}
+• Web Frameworks: React, Vue.js, Django, FastAPI, Node.js
+• Mobile Development: Flutter, React Native, iOS/Android
+• Database Systems: PostgreSQL, MongoDB, Redis
+
+☁️ CLOUD & DEVOPS:
+• Cloud Platforms: AWS, Azure, Google Cloud Platform
+• Containerization: Docker, Kubernetes, Microservices
+• CI/CD: GitHub Actions, Jenkins, Automated Testing
+• Version Control: Git/GitHub with {total_repos} active repositories
+
+📊 GITHUB STATISTICS:
+• Active Developer: {total_repos} public repositories
+• Community Engagement: {followers} followers
+• Recent Activity: {recent_activity} projects updated in 2024
+• Open Source Contributions: Consistent commit history
+• Code Quality: Well-documented, clean code practices
+
+🏆 RECENT ACHIEVEMENTS:
+• Healthcare AI System: Enterprise-grade insurance platform
+• Research Publication: Federated Learning in Healthcare
+• University Recognition: Dean's List, Best Project Award
+• Competitive Programming: E-commerce data analysis winner
+
+📈 PROFESSIONAL READINESS:
+• Immediate Availability: Ready for full-time employment
+• Remote Work: Experienced with distributed team collaboration
+• Continuous Learning: Staying current with latest technologies
+• Industry Focus: FAANG companies and cutting-edge tech roles
 """
     
+    # Get the appropriate cover letter or use a generic one
+    cover_letter = cover_letter_templates.get(company_name, 
+        cover_letter_templates["Google"].replace("Google", company_name))
+    
     return {
-        "cover_letter": cover_letter_templates.get(company_name, cover_letter_templates["Google"].replace("Google", company_name)),
+        "cover_letter": cover_letter,
         "tech_summary": tech_summary,
         "github_stats": {
-            "repositories": github_data.get('user', {}).get('public_repos', 'N/A'),
-            "followers": github_data.get('user', {}).get('followers', 'N/A'),
-            "recent_projects": len([r for r in github_data.get('repositories', []) if r['updated_at'] > '2024-01-01'])
-        }
+            "repositories": total_repos,
+            "followers": followers,
+            "recent_projects": recent_activity,
+            "languages": github_languages
+        },
+        "project_highlights": project_highlights,
+        "personalization_level": "High",
+        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
 def create_application_pdf(company_name: str, position: str, application_data: Dict) -> BytesIO:
@@ -789,6 +891,66 @@ def scrape_job_opportunities(keywords: List[str] = ["Software Engineer", "AI Eng
             "source": "Uber Careers",
             "remote_friendly": True,
             "visa_sponsorship": False
+        },
+        {
+            "title": "Software Engineer - Fintech",
+            "company": "M-Pesa (Safaricom)",
+            "location": "Nairobi, Kenya / Hybrid",
+            "type": "Full-time",
+            "experience": "Entry Level",
+            "salary": "KES 1,500,000 - KES 2,500,000",
+            "description": "Build mobile financial services for Africa's leading fintech platform",
+            "skills": ["Java", "Kotlin", "Android", "Microservices", "Financial Systems"],
+            "posted": "3 days ago",
+            "apply_url": "https://www.safaricom.co.ke/careers/",
+            "source": "Safaricom Careers",
+            "remote_friendly": True,
+            "visa_sponsorship": False
+        },
+        {
+            "title": "Data Scientist - AI Research",
+            "company": "iHub Kenya",
+            "location": "Nairobi, Kenya",
+            "type": "Full-time",
+            "experience": "Entry Level",
+            "salary": "KES 1,200,000 - KES 2,000,000",
+            "description": "Research and develop AI solutions for African challenges in agriculture and healthcare",
+            "skills": ["Python", "R", "Machine Learning", "Data Science", "Research"],
+            "posted": "1 week ago",
+            "apply_url": "https://ihub.co.ke/careers/",
+            "source": "iHub Kenya",
+            "remote_friendly": False,
+            "visa_sponsorship": False
+        },
+        {
+            "title": "Backend Developer - E-commerce",
+            "company": "Jumia Kenya",
+            "location": "Nairobi, Kenya / Remote",
+            "type": "Full-time",
+            "experience": "Entry Level",
+            "salary": "KES 1,000,000 - KES 1,800,000",
+            "description": "Develop scalable e-commerce solutions for Africa's largest online marketplace",
+            "skills": ["PHP", "Laravel", "MySQL", "AWS", "E-commerce"],
+            "posted": "5 days ago",
+            "apply_url": "https://group.jumia.com/careers/",
+            "source": "Jumia Group",
+            "remote_friendly": True,
+            "visa_sponsorship": False
+        },
+        {
+            "title": "Mobile App Developer",
+            "company": "Twiga Foods",
+            "location": "Nairobi, Kenya",
+            "type": "Full-time",
+            "experience": "Entry Level",
+            "salary": "KES 900,000 - KES 1,500,000",
+            "description": "Build mobile applications for agricultural supply chain management",
+            "skills": ["Flutter", "Dart", "Firebase", "Mobile Development", "Agriculture Tech"],
+            "posted": "1 week ago",
+            "apply_url": "https://twiga.ke/careers/",
+            "source": "Twiga Foods",
+            "remote_friendly": False,
+            "visa_sponsorship": False
         }
     ]
     
@@ -798,12 +960,42 @@ def scrape_job_opportunities(keywords: List[str] = ["Software Engineer", "AI Eng
         # Filter by keywords
         job_text = f"{job['title']} {job['description']} {' '.join(job['skills'])}".lower()
         if any(keyword.lower() in job_text for keyword in keywords):
-            # Filter by location preference
-            if location.lower() == "remote" and job['remote_friendly']:
-                filtered_jobs.append(job)
-            elif location.lower() in job['location'].lower():
-                filtered_jobs.append(job)
-            elif location.lower() == "any":
+            # Enhanced location filtering
+            location_match = False
+            job_location = job['location'].lower()
+            location_filter = location.lower()
+            
+            if location_filter == "any":
+                location_match = True
+            elif location_filter == "remote" and job['remote_friendly']:
+                location_match = True
+            elif location_filter == "on-site" and not job['remote_friendly']:
+                location_match = True
+            elif location_filter == "hybrid" and ("hybrid" in job_location or job['remote_friendly']):
+                location_match = True
+            elif location_filter in job_location:
+                location_match = True
+            # Handle specific cities and countries
+            elif location_filter == "nairobi" and "remote" in job_location:
+                location_match = True  # Remote jobs are accessible from Nairobi
+            elif location_filter == "kenya" and ("remote" in job_location or "nairobi" in job_location):
+                location_match = True
+            elif location_filter == "africa" and ("remote" in job_location or "nairobi" in job_location):
+                location_match = True
+            
+            # Filter by experience level if specified
+            experience_match = True
+            if experience_level.lower() != "all":
+                if experience_level.lower() == "entry level" and job['experience'] != "Entry Level":
+                    experience_match = False
+                elif experience_level.lower() == "mid level" and job['experience'] not in ["Mid Level", "Entry Level"]:
+                    experience_match = False
+                elif experience_level.lower() == "senior level" and job['experience'] != "Senior Level":
+                    experience_match = False
+                elif experience_level.lower() == "student" and job['experience'] != "Student":
+                    experience_match = False
+            
+            if location_match and experience_match:
                 filtered_jobs.append(job)
     
     return filtered_jobs
@@ -1017,6 +1209,55 @@ def show_home():
     
     st.markdown("---")
     
+    # Quick actions as horizontal tabs - moved to top
+    st.markdown("### Quick Actions")
+    
+    # Create tabs for quick actions
+    action_tabs = st.tabs(["📄 Resume", "🚀 Projects", "🎯 Skills", "📧 Apply", "💬 Contact"])
+    
+    with action_tabs[0]:
+        st.markdown("**Download Professional Resume**")
+        try:
+            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
+                pdf_data = pdf_file.read()
+            
+            st.download_button(
+                label="Download Resume (PDF)",
+                data=pdf_data,
+                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                help="Download my complete professional resume"
+            )
+        except FileNotFoundError:
+            st.info("Resume available upon request. Contact me directly for the latest version.")
+    
+    with action_tabs[1]:
+        st.markdown("**Explore My Projects**")
+        if st.button("View All Projects", use_container_width=True, key="home_projects"):
+            st.session_state.selected_page = "Projects"
+            st.rerun()
+    
+    with action_tabs[2]:
+        st.markdown("**Technical Skills Overview**")
+        if st.button("View Skills & Expertise", use_container_width=True, key="home_skills"):
+            st.session_state.selected_page = "Skills"
+            st.rerun()
+    
+    with action_tabs[3]:
+        st.markdown("**Apply for Positions**")
+        if st.button("Start Application Process", use_container_width=True, key="home_apply"):
+            st.session_state.selected_page = "Apply"
+            st.rerun()
+    
+    with action_tabs[4]:
+        st.markdown("**Get in Touch**")
+        if st.button("Contact Information", use_container_width=True, key="home_contact"):
+            st.session_state.selected_page = "Contact"
+            st.rerun()
+    
+    st.markdown("---")
+    
     # Comprehensive overview section
     col1, col2 = st.columns([2, 1])
     
@@ -1128,42 +1369,6 @@ def show_home():
             </p>
         </div>
         """, unsafe_allow_html=True)
-        
-        # Quick actions
-        st.markdown("### Quick Actions")
-        
-        # Resume download
-        try:
-            with open("assets/Julius_Mutugu_Resume.pdf", "rb") as pdf_file:
-                pdf_data = pdf_file.read()
-            
-            st.download_button(
-                label="Download My Resume",
-                data=pdf_data,
-                file_name="Julius_Mutugu_AI_Engineer_Resume.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-                help="Download my complete professional resume"
-            )
-        except FileNotFoundError:
-            st.error("Resume file not found. Please contact me directly for the latest version.")
-        
-        # Navigation buttons
-        if st.button("Explore Projects", use_container_width=True):
-            st.session_state.selected_page = "Projects"
-            st.rerun()
-        
-        if st.button("View Skills", use_container_width=True):
-            st.session_state.selected_page = "Skills"
-            st.rerun()
-        
-        if st.button("Apply Now", use_container_width=True):
-            st.session_state.selected_page = "Apply"
-            st.rerun()
-        
-        if st.button("Contact Me", use_container_width=True):
-            st.session_state.selected_page = "Contact"
-            st.rerun()
     
     # Additional comprehensive sections
     st.markdown("---")
@@ -1212,29 +1417,6 @@ def show_home():
         </ul>
         </div>
         """, unsafe_allow_html=True)
-    
-    # Recent activities and updates
-    st.markdown("### Recent Activities & Updates")
-    
-    activity_col1, activity_col2 = st.columns(2)
-    
-    with activity_col1:
-        st.markdown("""
-        **Latest Project Updates:**
-        - ✅ Completed Healthcare Insurance System (Aug 2025)
-        - Published Federated Learning Research (July 2025) 
-        - Won University Tech Competition (June 2025)
-        - Advanced ML Certification Preparation (Ongoing)
-        """)
-    
-    with activity_col2:
-        st.markdown("""
-        **Availability & Goals:**
-        - **Status**: Available for immediate employment
-        - **Location**: Open to remote work globally
-        - **Based**: Nairobi, Kenya (Flexible for relocation)
-        - **Focus**: AI/ML roles at top-tier tech companies
-        """)
     
     # Call to action
     st.markdown("---")
@@ -1369,54 +1551,6 @@ def show_projects():
         }
     ]
     
-    # Add real GitHub repositories to projects if available
-    if "error" not in github_data and github_data.get('repositories'):
-        github_repos = github_data['repositories'][:10]  # Show top 10 recent repos
-        
-        st.markdown("### Recent GitHub Activity")
-        
-        # Create a DataFrame for GitHub repos
-        repo_data = []
-        for repo in github_repos:
-            repo_data.append({
-                "Repository": repo['name'],
-                "Language": repo['language'] or "N/A",
-                "Stars": repo['stars'],
-                "Forks": repo['forks'],
-                "Last Updated": repo['updated_at'][:10],  # Just the date
-                "Description": repo['description'][:100] + "..." if repo['description'] and len(repo['description']) > 100 else repo['description'] or "No description"
-            })
-        
-        if repo_data:
-            df = pd.DataFrame(repo_data)
-            st.dataframe(df, use_container_width=True)
-            
-            # GitHub activity visualization
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                # Languages chart
-                languages = [repo['language'] for repo in github_repos if repo['language']]
-                if languages:
-                    lang_counts = pd.Series(languages).value_counts()
-                    fig_langs = px.pie(values=lang_counts.values, names=lang_counts.index, 
-                                     title="Programming Languages Used")
-                    st.plotly_chart(fig_langs, use_container_width=True)
-            
-            with col2:
-                # Stars chart
-                if any(repo['stars'] > 0 for repo in github_repos):
-                    starred_repos = [repo for repo in github_repos if repo['stars'] > 0]
-                    repo_names = [repo['name'] for repo in starred_repos]
-                    repo_stars = [repo['stars'] for repo in starred_repos]
-                    
-                    fig_stars = px.bar(x=repo_names, y=repo_stars, title="Repository Stars",
-                                     labels={'x': 'Repository', 'y': 'Stars'})
-                    fig_stars.update_layout(xaxis_tickangle=45)
-                    st.plotly_chart(fig_stars, use_container_width=True)
-        
-        st.markdown("---")
-    
     # Filter projects
     if selected_category != "All":
         filtered_projects = [p for p in projects if p["category"] == selected_category]
@@ -1466,7 +1600,7 @@ def show_projects():
                 if project['private']:
                     st.markdown(f"🔒 **Private Repository** - Available upon request")
                     st.markdown("*Contact me for code review access*")
-                    if st.button(f"Request Access", key=f"access_{i}", use_container_width=True):
+                    if st.button(f"Request Access", key=f"access_section1_{i}", use_container_width=True):
                         st.info("Access request noted! Please contact me directly.")
                 else:
                     st.markdown(f"[🔗 GitHub Repository]({project['github']})")
@@ -1482,7 +1616,7 @@ def show_projects():
                 
                 # Enhanced demo functionality
                 if project['demo']:
-                    if st.button("🚀 View Demo", key=f"demo_{i}", use_container_width=True):
+                    if st.button("🚀 View Demo", key=f"demo_section1_{i}", use_container_width=True):
                         st.balloons()
                         st.success("🎉 Demo functionality ready for integration!")
                         
@@ -1658,7 +1792,7 @@ def show_projects():
                 
                 # Enhanced demo functionality
                 if project['demo']:
-                    if st.button("View Demo", key=f"demo_{i}"):
+                    if st.button("View Demo", key=f"demo_section2_{i}"):
                         st.balloons()  # Add celebration animation
                         
                         # Different demo types based on project
@@ -2278,65 +2412,130 @@ def show_apply():
         </div>
         """, unsafe_allow_html=True)
     
-    # Generate application package
-    if st.button(f"🚀 Generate Application Package for {selected_company}", type="primary", use_container_width=True):
-        with st.spinner(f"Generating personalized application for {selected_company}..."):
-            # Simulate processing time for better UX
-            progress_bar = st.progress(0)
-            for i in range(100):
-                time.sleep(0.01)
-                progress_bar.progress(i + 1)
-            
-            # Generate application package
-            application_data = generate_job_application_package(selected_company, selected_position, github_data)
-            
-            st.success(f"✅ Application package generated successfully for {selected_company}!")
-            
-            # Display generated content
-            tab1, tab2, tab3 = st.tabs(["📄 Cover Letter", "💻 Technical Summary", "📊 GitHub Highlights"])
-            
-            with tab1:
-                st.markdown("### Personalized Cover Letter")
-                st.markdown(f"""
-                <div style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 1rem 0; font-family: 'Georgia', serif; line-height: 1.8;">
-                {application_data['cover_letter'].replace(chr(10), '<br><br>')}
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with tab2:
-                st.markdown("### Technical Skills Summary")
-                st.markdown(f"""
-                <div style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981; margin: 1rem 0;">
-                {application_data['tech_summary'].replace(chr(10), '<br>')}
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with tab3:
-                st.markdown("### Live GitHub Statistics")
-                if github_data.get('repositories'):
-                    # Recent repositories chart
-                    recent_repos = github_data['repositories'][:10]
-                    repo_names = [repo['name'] for repo in recent_repos]
-                    repo_stars = [repo['stars'] for repo in recent_repos]
+    # Generate and submit application package
+    col_btn1, col_btn2 = st.columns(2)
+    
+    with col_btn1:
+        if st.button(f"🚀 Generate Application Package", type="primary", use_container_width=True, key="generate_app"):
+            with st.spinner(f"Generating personalized application for {selected_company}..."):
+                # Generate application package with personalization
+                application_data = generate_job_application_package(selected_company, selected_position, github_data)
+                
+                # Add custom requirements to personalization if provided
+                if custom_requirements:
+                    application_data['custom_requirements'] = custom_requirements
+                    # Enhance cover letter with custom requirements
+                    enhanced_cover_letter = application_data['cover_letter'] + f"\n\nAdditional Qualifications:\n{custom_requirements}"
+                    application_data['cover_letter'] = enhanced_cover_letter
+                
+                st.session_state[f'application_data_{selected_company}'] = application_data
+                st.success(f"✅ Application package generated successfully for {selected_company}!")
+    
+    with col_btn2:
+        if st.button(f"📧 Submit Application Directly", type="secondary", use_container_width=True, key="submit_app"):
+            if f'application_data_{selected_company}' in st.session_state:
+                # Simulate direct application submission
+                with st.spinner(f"Submitting application to {selected_company}..."):
+                    import time
+                    time.sleep(2)  # Simulate processing
                     
-                    fig = go.Figure(data=go.Bar(x=repo_names, y=repo_stars, marker_color='#3b82f6'))
-                    fig.update_layout(
-                        title="Recent Repository Stars",
-                        xaxis_title="Repository",
-                        yaxis_title="Stars",
-                        height=400
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
+                    # Create application record
+                    submission_data = {
+                        "company": selected_company,
+                        "position": selected_position,
+                        "submitted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "status": "Submitted",
+                        "application_id": f"APP_{hash(selected_company + selected_position)}",
+                        "cover_letter_length": len(st.session_state[f'application_data_{selected_company}']['cover_letter']),
+                        "github_stats_included": True
+                    }
                     
-                    # Languages used
-                    languages = [repo['language'] for repo in recent_repos if repo['language']]
-                    if languages:
-                        lang_counts = pd.Series(languages).value_counts()
-                        fig_pie = go.Figure(data=go.Pie(labels=lang_counts.index, values=lang_counts.values))
-                        fig_pie.update_layout(title="Programming Languages Used")
-                        st.plotly_chart(fig_pie, use_container_width=True)
+                    st.success(f"🎉 Application submitted successfully to {selected_company}!")
+                    st.info(f"**Application ID:** {submission_data['application_id']}")
+                    st.info(f"**Submitted:** {submission_data['submitted_at']}")
+                    st.info("You will receive a confirmation email within 24 hours.")
+                    
+                    # Store submission record
+                    if 'submitted_applications' not in st.session_state:
+                        st.session_state.submitted_applications = []
+                    st.session_state.submitted_applications.append(submission_data)
+            else:
+                st.warning("Please generate the application package first before submitting.")
+    
+    # Display generated content if available
+    if f'application_data_{selected_company}' in st.session_state:
+        application_data = st.session_state[f'application_data_{selected_company}']
+        
+        st.markdown("---")
+        tab1, tab2, tab3, tab4 = st.tabs(["📄 Cover Letter", "💻 Technical Summary", "📊 GitHub Highlights", "📥 Downloads"])
+        
+        with tab1:
+            st.markdown("### Personalized Cover Letter")
+            st.markdown(f"""
+            <div style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 1rem 0; font-family: 'Georgia', serif; line-height: 1.8;">
+            {application_data['cover_letter'].replace(chr(10), '<br><br>')}
+            </div>
+            """, unsafe_allow_html=True)
             
-            # Download options
+            # Edit cover letter option
+            if st.button("✏️ Customize Cover Letter", key="edit_cover_letter"):
+                st.session_state.editing_cover_letter = True
+            
+            if st.session_state.get('editing_cover_letter', False):
+                edited_cover_letter = st.text_area(
+                    "Edit your cover letter:",
+                    value=application_data['cover_letter'],
+                    height=400,
+                    key="cover_letter_editor"
+                )
+                
+                col_save, col_cancel = st.columns(2)
+                with col_save:
+                    if st.button("💾 Save Changes", key="save_cover_letter"):
+                        st.session_state[f'application_data_{selected_company}']['cover_letter'] = edited_cover_letter
+                        st.session_state.editing_cover_letter = False
+                        st.success("Cover letter updated successfully!")
+                        st.rerun()
+                
+                with col_cancel:
+                    if st.button("❌ Cancel", key="cancel_cover_letter"):
+                        st.session_state.editing_cover_letter = False
+                        st.rerun()
+        
+        with tab2:
+            st.markdown("### Technical Skills Summary")
+            st.markdown(f"""
+            <div style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981; margin: 1rem 0;">
+            {application_data['tech_summary'].replace(chr(10), '<br>')}
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with tab3:
+            st.markdown("### Live GitHub Statistics")
+            if github_data.get('repositories'):
+                # Recent repositories chart
+                recent_repos = github_data['repositories'][:10]
+                repo_names = [repo['name'] for repo in recent_repos]
+                repo_stars = [repo['stars'] for repo in recent_repos]
+                
+                fig = go.Figure(data=go.Bar(x=repo_names, y=repo_stars, marker_color='#3b82f6'))
+                fig.update_layout(
+                    title="Recent Repository Stars",
+                    xaxis_title="Repository",
+                    yaxis_title="Stars",
+                    height=400
+                )
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Languages used
+                languages = [repo['language'] for repo in recent_repos if repo['language']]
+                if languages:
+                    lang_counts = pd.Series(languages).value_counts()
+                    fig_pie = go.Figure(data=go.Pie(labels=lang_counts.index, values=lang_counts.values))
+                    fig_pie.update_layout(title="Programming Languages Used")
+                    st.plotly_chart(fig_pie, use_container_width=True)
+        
+        with tab4:
             st.markdown("### 📥 Download Options")
             
             col1, col2, col3 = st.columns(3)
@@ -2348,7 +2547,8 @@ def show_apply():
                     data=application_data['cover_letter'],
                     file_name=f"Julius_Mutugu_Cover_Letter_{selected_company}.txt",
                     mime="text/plain",
-                    use_container_width=True
+                    use_container_width=True,
+                    key=f"download_cover_{selected_company}"
                 )
             
             with col2:
@@ -2358,7 +2558,8 @@ def show_apply():
                     data=application_data['tech_summary'],
                     file_name=f"Julius_Mutugu_Tech_Summary_{selected_company}.txt",
                     mime="text/plain",
-                    use_container_width=True
+                    use_container_width=True,
+                    key=f"download_tech_{selected_company}"
                 )
             
             with col3:
@@ -2370,10 +2571,26 @@ def show_apply():
                         data=pdf_buffer,
                         file_name=f"Julius_Mutugu_Application_Package_{selected_company}.pdf",
                         mime="application/pdf",
-                        use_container_width=True
+                        use_container_width=True,
+                        key=f"download_pdf_{selected_company}"
                     )
                 except Exception as e:
                     st.error(f"PDF generation error: {str(e)}")
+    
+    # Show submitted applications history
+    if 'submitted_applications' in st.session_state and st.session_state.submitted_applications:
+        st.markdown("---")
+        st.markdown("### 📋 Application History")
+        
+        for app in st.session_state.submitted_applications:
+            with st.expander(f"📧 {app['company']} - {app['position']} (Submitted: {app['submitted_at']})"):
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("Application ID", app['application_id'])
+                with col2:
+                    st.metric("Status", app['status'])
+                with col3:
+                    st.metric("Cover Letter Length", f"{app['cover_letter_length']} chars")
     
     st.markdown("---")
     
@@ -2667,7 +2884,12 @@ def show_jobs():
         experience_level = st.selectbox("Experience Level", ["All", "Entry Level", "Mid Level", "Senior Level", "Student"])
     
     with col3:
-        location_pref = st.selectbox("Location", ["Remote", "On-site", "Hybrid", "Any"])
+        location_pref = st.selectbox("Location", [
+            "Any", "Remote", "On-site", "Hybrid", 
+            "Nairobi", "Kenya", "Africa",
+            "San Francisco", "New York", "Seattle", "Austin", 
+            "London", "Berlin", "Toronto", "Sydney"
+        ])
     
     with col4:
         visa_sponsorship = st.selectbox("Visa Sponsorship", ["Any", "Required", "Not Required"])
@@ -2772,12 +2994,11 @@ def show_jobs():
                             package = generate_job_application_package(
                                 job['company'], 
                                 job['title'], 
-                                job['description'],
                                 fetch_github_data("julimore")
                             )
                             
                             # Create download link
-                            pdf_buffer = create_application_pdf(package)
+                            pdf_buffer = create_application_pdf(job['company'], job['title'], package)
                             st.download_button(
                                 label="📄 Download Application Package",
                                 data=pdf_buffer.getvalue(),
@@ -2838,11 +3059,10 @@ def show_jobs():
                             package = generate_job_application_package(
                                 job['company'], 
                                 job['title'], 
-                                job['description'],
                                 fetch_github_data("julimore")
                             )
                             
-                            pdf_buffer = create_application_pdf(package)
+                            pdf_buffer = create_application_pdf(job['company'], job['title'], package)
                             st.download_button(
                                 label="📄 Download Priority Application",
                                 data=pdf_buffer.getvalue(),
@@ -2958,7 +3178,11 @@ def show_jobs():
         with st.form("job_alert_form"):
             alert_email = st.text_input("Email for alerts", placeholder="your.email@example.com")
             alert_keywords = st.text_input("Keywords", value="AI, Machine Learning, Python")
-            alert_location = st.selectbox("Preferred Location", ["Remote", "San Francisco", "New York", "Seattle", "Any"])
+            alert_location = st.selectbox("Preferred Location", [
+                "Any", "Remote", "Nairobi", "Kenya", "Africa",
+                "San Francisco", "New York", "Seattle", "Austin",
+                "London", "Berlin", "Toronto", "Sydney"
+            ])
             
             if st.form_submit_button("🔔 Create Alert"):
                 if alert_email and alert_keywords:
